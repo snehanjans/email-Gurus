@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guru Emails · Distribution Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #F4F5F7;
+      --card: #FFFFFF;
+      --ink: #1F2A44;
+      --body: #475467;
+      --muted: #98A2B3;
+      --faint: #C2C8D0;
+      --hair: #EAECF0;
+      --hair-strong: #DCE0E6;
+      --blue: #2B5CE6;
+      --coral: #FF5A4E;
+
+      --serif: Georgia, 'Times New Roman', Times, serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      min-height: 100dvh;
+    }
+
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 72px 32px 120px; }
+
+    /* ── Header ───────────────────────────────────────── */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 28px; border-bottom: 1px solid var(--hair); margin-bottom: 64px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 34px; height: 34px; border-radius: 9px; background: var(--ink);
+      display: grid; place-items: center; color: #fff;
+      font-family: var(--serif); font-weight: 700; font-size: 18px; line-height: 1;
+    }
+    .brand-name { font-weight: 600; letter-spacing: -0.01em; font-size: 15px; }
+    .topbar-meta {
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .pip { width: 6px; height: 6px; border-radius: 50%; background: var(--coral); }
+
+    /* ── Hero (left-aligned, asymmetric) ──────────────── */
+    .hero { max-width: 720px; margin-bottom: 56px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 22px;
+    }
+    .eyebrow .pip { background: var(--coral); }
+    h1 {
+      font-family: var(--serif); font-weight: 700;
+      font-size: clamp(38px, 6vw, 60px); line-height: 1.02;
+      letter-spacing: -0.022em; color: var(--ink); margin-bottom: 20px;
+    }
+    h1 .accent { font-style: italic; color: var(--blue); }
+    .lede { font-size: 17px; color: var(--body); line-height: 1.6; max-width: 60ch; }
+
+    /* ── Toolbar ──────────────────────────────────────── */
+    .toolbar {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .search {
+      flex: 1; min-width: 240px; display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px; background: var(--card); border: 1px solid var(--hair);
+      border-radius: 11px; transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .search:focus-within {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(43, 92, 230, 0.12);
+    }
+    .search svg { flex-shrink: 0; color: var(--muted); }
+    .search input {
+      flex: 1; background: none; border: none; outline: none; color: var(--ink);
+      font-family: var(--sans); font-size: 14.5px;
+    }
+    .search input::placeholder { color: var(--muted); }
+    .count {
+      font-family: var(--mono); font-size: 13px; color: var(--muted);
+      white-space: nowrap; letter-spacing: 0.02em;
+    }
+    .count b { color: var(--ink); font-weight: 600; }
+
+    /* ── List (editorial index, hairline dividers) ────── */
+    .list { margin-top: 8px; border-top: 1px solid var(--hair); }
+
+    .row {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 4px 24px;
+      padding: 30px 20px 30px 16px;
+      border-bottom: 1px solid var(--hair);
+      position: relative;
+      transition: background 200ms ease;
+    }
+    .row::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: -1px; width: 2px;
+      background: var(--coral); transform: scaleY(0); transform-origin: center;
+      transition: transform 220ms var(--ease-out);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .row:hover { background: var(--card); }
+      .row:hover::before { transform: scaleY(1); }
+      .row:hover .idx { color: var(--coral); }
+    }
+
+    .idx {
+      grid-row: 1 / span 4;
+      font-family: var(--mono); font-size: 15px; font-weight: 500;
+      color: var(--faint); padding-top: 5px; transition: color 200ms ease;
+      letter-spacing: 0.02em;
+    }
+
+    .row-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .row-title {
+      font-family: var(--serif); font-weight: 700; font-size: 22px;
+      line-height: 1.22; letter-spacing: -0.012em; color: var(--ink);
+      text-decoration: none;
+    }
+    .row-title:hover { color: var(--blue); }
+
+    .chip {
+      flex-shrink: 0; font-family: var(--mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 10px;
+      border-radius: 999px; white-space: nowrap;
+      background: #FDEBEC; color: #B83B2F;            /* coral default */
+    }
+    .chip.blue  { background: #E1F3FE; color: #1E4FD0; }
+    .chip.green { background: #EDF3EC; color: #2D7A2D; }
+
+    .row-persona {
+      display: inline-flex; align-items: center; gap: 7px; margin-top: 11px;
+      font-size: 12.5px; color: var(--body);
+    }
+    .row-persona svg { width: 14px; height: 14px; color: var(--coral); flex-shrink: 0; }
+    .row-persona-lbl {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .row-persona-name { font-weight: 600; color: var(--ink); letter-spacing: -0.005em; }
+    .row-persona-desc { color: var(--muted); }
+    .row-persona-desc::before { content: '— '; color: var(--faint); }
+
+    .row-subject {
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+      margin-top: 8px; display: flex; gap: 8px; align-items: baseline;
+    }
+    .row-subject .lbl { color: var(--faint); flex-shrink: 0; }
+    .row-subject span { color: var(--body); line-height: 1.5; }
+
+    .row-desc {
+      font-size: 14.5px; color: var(--body); line-height: 1.6;
+      margin-top: 10px; max-width: 64ch;
+    }
+
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 18px; }
+    .filename {
+      margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--faint);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 9px 14px; border-radius: 9px; border: 1px solid var(--hair-strong);
+      background: var(--card); color: var(--ink); cursor: pointer;
+      font-family: var(--sans); font-size: 13px; font-weight: 500; text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms var(--ease-out), color 160ms ease;
+    }
+    .btn svg { width: 15px; height: 15px; }
+    @media (hover: hover) and (pointer: fine) {
+      .btn:hover { border-color: var(--ink); background: #FBFBFC; }
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+    @media (hover: hover) and (pointer: fine) {
+      .btn.primary:hover { background: #2350cf; border-color: #2350cf; }
+    }
+    .btn.copied { background: #2D7A2D !important; border-color: #2D7A2D !important; color: #fff !important; }
+    .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+
+    /* ── Empty state ──────────────────────────────────── */
+    .empty {
+      padding: 80px 24px; text-align: center; color: var(--muted);
+      border-bottom: 1px solid var(--hair);
+    }
+    .empty .mark {
+      width: 46px; height: 46px; border-radius: 12px; border: 1px dashed var(--hair-strong);
+      display: grid; place-items: center; margin: 0 auto 18px; color: var(--faint);
+    }
+    .empty h3 { font-family: var(--serif); font-weight: 700; font-size: 18px; color: var(--ink); margin-bottom: 6px; }
+    .empty code { font-family: var(--mono); font-size: 12px; color: var(--blue); background: #EEF2FB; padding: 2px 7px; border-radius: 5px; }
+
+    /* ── Footer ───────────────────────────────────────── */
+    footer {
+      margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--hair);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+    }
+
+    /* ── Toast ────────────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 28px; left: 50%; z-index: 50;
+      transform: translate(-50%, 16px); opacity: 0; pointer-events: none;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 11px;
+      font-size: 13.5px; box-shadow: 0 16px 40px rgba(31, 42, 68, 0.28);
+      transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .toast .tdot { width: 7px; height: 7px; border-radius: 50%; background: #58D68D; }
+
+    /* ── Entrance ─────────────────────────────────────── */
+    @keyframes riseIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .row { opacity: 0; animation: riseIn 460ms var(--ease-out) forwards; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .row { animation: none; opacity: 1; }
+      .row::before, .idx, .btn, .toast, .search { transition: none; }
+      .btn:active { transform: none; }
+    }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 44px 20px 80px; }
+      .topbar { margin-bottom: 44px; }
+      .row { grid-template-columns: 1fr; padding: 26px 4px; }
+      .idx { grid-row: auto; padding-top: 0; margin-bottom: 4px; }
+      .filename { display: none; }
+      footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">G</div>
+        <div class="brand-name">Guru Emails</div>
+      </div>
+      <div class="topbar-meta"><span class="pip"></span><span>DISTRIBUTION HUB</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow"><span class="pip"></span> Great Learning · Lifecycle</div>
+      <h1>Every Guru email,<br/>ready to <span class="accent">ship</span>.</h1>
+      <p class="lede">Preview, copy the production HTML, or download any template — ready to paste straight into your ESP. Adding a new email is a single line of config.</p>
+    </section>
+
+    <div class="toolbar">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="search" type="text" aria-label="Search emails" placeholder="Search by name, subject, audience, or tag…" autocomplete="off" />
+      </label>
+      <div class="count" id="count">— / —</div>
+    </div>
+
+    <div class="list" id="grid"></div>
+
+    <footer>
+      <div>© 2026 · Great Learning</div>
+      <div>built for Gurus</div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"><span class="tdot"></span><span id="toast-msg">Copied</span></div>
+
+  <script>
+    /* ─────────────────────────────────────────────────────────────
+       ADD A NEW EMAIL → add one object below. `file` is required.
+       title / subject / description are auto-pulled from the email's
+       <title> and preheader if you leave them blank.
+       tag accent: "" (coral) | "blue" | "green"
+       ───────────────────────────────────────────────────────────── */
+    const EMAILS = [
+      {
+        file: "guru-availability-nudge-final (1).html",
+        title: "Set your availability",
+        subject: "Set your availability: Guru Dashboard",
+        description: "A 2-minute nudge prompting Gurus to set recurring availability so they stay in every week's scheduling round.",
+        tag: "Availability",
+        tagColor: "",
+        persona: "All Gurus"
+      },
+      {
+        file: "guru-session-status-lifecycle.html",
+        title: "Every session shows where it stands",
+        subject: "Every session now shows where it stands: Guru Dashboard",
+        description: "Invites Gurus to open the dashboard and see the visual status badge — scheduled → confirmed → upcoming → in-session → completed → paid — on every session.",
+        tag: "Lifecycle",
+        tagColor: "blue",
+        persona: "All Gurus"
+      },
+      {
+        file: "guru-sessions-up-front.html",
+        title: "Everything about your sessions, up front",
+        subject: "Your sessions and their details, all up front: Guru Dashboard",
+        description: "Invites Gurus to open the dashboard and see each session's details — time, learners, topic, status — surfaced right on the card, no digging or asking.",
+        tag: "Sessions",
+        tagColor: "green",
+        persona: "All Gurus"
+      },
+      {
+        file: "guru-ops-coordination.html",
+        title: "The latest on every session, without checking with ops",
+        subject: "The latest on every session, already on your dashboard: Guru Dashboard",
+        description: "Shows Gurus that schedule changes, status and the latest details now live on the dashboard itself — the coordination is already done, no back-and-forth needed.",
+        tag: "Self-serve",
+        tagColor: "",
+        persona: "All Gurus"
+      },
+      {
+        file: "mentor-redesign-announcement.html",
+        title: "Course Mentors: set your schedule once",
+        subject: "Set your availability once, not every cohort: Guru Dashboard",
+        description: "Announces the redesign to Course Mentors — open the availability screen to see a recurring weekly schedule, and the session list to see confirmed/upcoming status at a glance.",
+        tag: "Course Mentors",
+        tagColor: "blue",
+        persona: "Course Mentors"
+      },
+      {
+        file: "career-mentor-redesign-announcement.html",
+        title: "Career Mentors: see what's really confirmed",
+        subject: "Know which sessions are really confirmed, at a glance: Guru Dashboard",
+        description: "Announces the redesign to Career Mentors — open any upcoming session to see a clear confirmed/pending status, with pending items surfaced up top so a high-stakes booking can't quietly fall through.",
+        tag: "Career Mentors",
+        tagColor: "blue",
+        persona: "Career Mentors"
+      },
+      {
+        file: "evaluator-redesign-announcement.html",
+        title: "Evaluators: your whole review pipeline",
+        subject: "See your whole review pipeline through to paid: Guru Dashboard",
+        description: "Announces the redesign to Evaluators — open the assignment pipeline to see every item carry a status (pending → completed → paid). NOTE: payment-status section is flagged [VERIFY] — confirm the dashboard surfaces payment to Evaluators before sending.",
+        tag: "Evaluators",
+        tagColor: "green",
+        persona: "Evaluators"
+      },
+      // { file: "next-email.html", tag: "Welcome", tagColor: "blue" },
+    ];
+
+    /* Who each persona is — shown under every listing. Reused across emails. */
+    const PERSONAS = {
+      "All Gurus": "Everyone delivering sessions or tasks on the Guru Dashboard.",
+      "Course Mentors": "Run recurring, cohort-linked mentoring sessions.",
+      "Career Mentors": "Run lower-frequency, higher-stakes 1:1 career sessions — mock interviews, career planning.",
+      "Evaluators": "Assess submissions, projects and vivas."
+    };
+
+    const grid = document.getElementById('grid');
+    const toastEl = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+    let toastTimer;
+
+    function toast(msg) {
+      toastMsg.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2200);
+    }
+
+    function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+    // Cache of fetched email source so copy/download don't re-fetch.
+    const sourceCache = {};
+    async function fetchSource(file) {
+      if (sourceCache[file]) return sourceCache[file];
+      const res = await fetch(file);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      sourceCache[file] = text;
+      return text;
+    }
+
+    // Pull <title> and preheader text from raw email HTML.
+    function extractMeta(html) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const title = (doc.querySelector('title')?.textContent || '').trim();
+      let pre = '';
+      const candidates = doc.querySelectorAll('[class*="preheader" i], [id*="preheader" i], [class*="preview" i]');
+      for (const el of candidates) { const t = el.textContent.trim(); if (t && t.length > 4) { pre = t; break; } }
+      return { title, pre };
+    }
+
+    function render() {
+      grid.innerHTML = '';
+      EMAILS.forEach((m, i) => {
+        const title = m.title || m.file.replace(/\.html?$/i, '').replace(/[-_]+/g, ' ');
+        const subject = m.subject || '';
+        const num = String(i + 1).padStart(2, '0');
+        const persona = m.persona || 'All Gurus';
+        const personaDesc = PERSONAS[persona] || '';
+        const row = document.createElement('article');
+        row.className = 'row';
+        row.style.animationDelay = (i * 55) + 'ms';
+        row.dataset.search = (title + ' ' + subject + ' ' + (m.tag || '') + ' ' + persona + ' ' + personaDesc + ' ' + m.file).toLowerCase();
+        row.innerHTML = `
+          <div class="idx">${num}</div>
+          <div class="row-body">
+            <div class="row-head">
+              <a class="row-title" data-role="title" href="${encodeURI(m.file)}" target="_blank" rel="noopener">${esc(title)}</a>
+              <span class="chip ${m.tagColor || ''}">${esc(m.tag || 'Email')}</span>
+            </div>
+            <div class="row-persona">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span class="row-persona-lbl">Designed for</span>
+              <span class="row-persona-name">${esc(persona)}</span>
+              ${personaDesc ? `<span class="row-persona-desc">${esc(personaDesc)}</span>` : ''}
+            </div>
+            ${subject ? `<div class="row-subject" data-role="subject"><span class="lbl">SUBJ</span><span>${esc(subject)}</span></div>` : ''}
+            <p class="row-desc" data-role="desc">${esc(m.description || '')}</p>
+            <div class="actions">
+              <a class="btn primary" href="${encodeURI(m.file)}" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Preview
+              </a>
+              <button class="btn" data-act="copy-html" data-file="${encodeURI(m.file)}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy HTML
+              </button>
+              <button class="btn" data-act="download" data-file="${encodeURI(m.file)}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download
+              </button>
+              <button class="btn" data-act="copy-subject" ${subject ? '' : 'disabled'}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Copy subject
+              </button>
+              <span class="filename">${esc(m.file)}</span>
+            </div>
+          </div>`;
+        grid.appendChild(row);
+
+        // Progressive enhancement: fill missing title/subject from the file.
+        if (!m.title || !m.subject || !m.description) {
+          fetchSource(m.file).then(html => {
+            const { title: t, pre } = extractMeta(html);
+            if (!m.subject && t) {
+              const sEl = row.querySelector('[data-role="subject"]');
+              if (!sEl) {
+                const desc = row.querySelector('[data-role="desc"]');
+                desc.insertAdjacentHTML('beforebegin', `<div class="row-subject" data-role="subject"><span class="lbl">SUBJ</span><span>${esc(t)}</span></div>`);
+                const sub = row.querySelector('[data-act="copy-subject"]');
+                sub.removeAttribute('disabled');
+                m.subject = t;
+                row.dataset.search += ' ' + t.toLowerCase();
+              }
+            }
+            if (!m.title && t) row.querySelector('[data-role="title"]').textContent = t;
+            if (!m.description && pre) row.querySelector('[data-role="desc"]').textContent = pre;
+          }).catch(() => {/* file:// or missing — config values stand */});
+        }
+      });
+      updateCount();
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      }
+    }
+
+    grid.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-act]');
+      if (!btn) return;
+      const act = btn.dataset.act;
+      const row = btn.closest('.row');
+
+      if (act === 'copy-subject') {
+        const subj = row.querySelector('[data-role="subject"] span:last-child')?.textContent || '';
+        if (subj && await copyText(subj)) { flash(btn, 'Copied'); toast('Subject line copied'); }
+        return;
+      }
+
+      const file = decodeURI(btn.dataset.file);
+      if (act === 'copy-html') {
+        const old = btn.innerHTML;
+        btn.disabled = true; btn.textContent = 'Fetching…';
+        try {
+          const html = await fetchSource(file);
+          if (await copyText(html)) { btn.innerHTML = old; flash(btn, 'Copied'); toast('Full HTML copied — paste into your ESP'); }
+          else throw new Error('copy failed');
+        } catch (err) {
+          btn.innerHTML = old; btn.disabled = false;
+          toast('Couldn’t read file — serve over http (not file://)');
+        }
+        return;
+      }
+
+      if (act === 'download') {
+        try {
+          const html = await fetchSource(file);
+          const blob = new Blob([html], { type: 'text/html' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = file.split('/').pop();
+          document.body.appendChild(a); a.click(); a.remove();
+          URL.revokeObjectURL(url);
+          toast('Downloading ' + file.split('/').pop());
+        } catch {
+          const a = document.createElement('a');
+          a.href = encodeURI(file); a.download = file.split('/').pop();
+          document.body.appendChild(a); a.click(); a.remove();
+        }
+      }
+    });
+
+    function flash(btn, label) {
+      const old = btn.innerHTML;
+      btn.classList.add('copied');
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ${label}`;
+      btn.disabled = true;
+      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = old; btn.disabled = false; }, 1500);
+    }
+
+    function updateCount() {
+      const all = grid.querySelectorAll('.row');
+      const shown = grid.querySelectorAll('.row:not([hidden])');
+      const total = String(all.length).padStart(2, '0');
+      const vis = String(shown.length).padStart(2, '0');
+      document.getElementById('count').innerHTML = shown.length === all.length
+        ? `<b>${total}</b> templates`
+        : `<b>${vis}</b> / ${total}`;
+    }
+
+    document.getElementById('search').addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      grid.querySelectorAll('.row').forEach(c => {
+        c.hidden = q && !c.dataset.search.includes(q);
+      });
+      updateCount();
+    });
+
+    if (EMAILS.length === 0) {
+      grid.innerHTML = `<div class="empty"><div class="mark">+</div><h3>No emails yet</h3><div>Drop an <code>.html</code> file in this folder and add it to the <code>EMAILS</code> array.</div></div>`;
+      document.getElementById('count').innerHTML = '<b>00</b> templates';
+    } else {
+      render();
+    }
+  </script>
+</body>
+</html>
