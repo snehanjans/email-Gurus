@@ -7,9 +7,7 @@
   <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
   <meta name="color-scheme" content="light">
   <meta name="supported-color-schemes" content="light">
-  <!-- [VERIFY] before sending: does the Guru-facing dashboard actually surface PAYMENT status (the "Paid" stage) to Evaluators? -->
-  <!-- If NO: remove the payment language from the subject, the "Then · completed to paid" section, and the why-it-matters block; the pipeline-status content stands on its own. -->
-  <title>See your whole review pipeline through to paid: Guru Dashboard</title>
+  <title>See your whole review pipeline at a glance: Guru Dashboard</title>
   <!--[if mso]>
   <noscript>
     <xml>
@@ -135,7 +133,7 @@
             </td>
           </tr>
 
-          <!-- SECTION 1: Pipeline status (confident — no VERIFY needed) -->
+          <!-- SECTION 1: Pipeline status -->
           <tr>
             <td class="px-mobile" style="padding: 36px 40px 8px 40px;">
               <p style="margin:0 0 6px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:12px; font-weight:700; color:#2B5CE6; letter-spacing: 0.6px; text-transform: uppercase;">First &middot; Your pipeline</p>
@@ -199,83 +197,29 @@
             </td>
           </tr>
 
-          <!-- Screenshot 1 (placeholder: swap for the assignment pipeline) -->
+          <!-- Auto-declutter: past due-date items move to Completed -->
           <tr>
-            <td class="px-mobile" style="padding: 8px 40px 8px 40px;">
-              <p style="margin: 0 0 12px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; color: #98A2B3; text-align: center;">
-                Your assignment pipeline, status on every item
-              </p>
-              <a href="[Dashboard Link]" style="text-decoration: none; display: block;">
-                <img src="https://guru-emails.vercel.app/assets/availability-summary.png?v=1778581083" alt="An evaluator's assignment pipeline with Pending and Completed status badges" width="520" style="display: block; width: 100%; max-width: 520px; height: auto; margin: 0 auto; border: 0; outline: none; text-decoration: none;">
-              </a>
-            </td>
-          </tr>
-
-          <!-- Divider -->
-          <tr>
-            <td class="px-mobile" style="padding: 28px 40px 0 40px;">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr><td style="border-top: 1px solid #EAECF0; font-size:0; line-height:0;">&nbsp;</td></tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- ============================================================= -->
-          <!-- SECTION 2: completed -> paid                                  -->
-          <!-- [VERIFY] This entire section assumes the dashboard shows      -->
-          <!-- PAYMENT status to Evaluators. Confirm before sending.         -->
-          <!-- If it does NOT, delete this <tr> through the why-it-matters   -->
-          <!-- block, and drop "paid/payment" from the subject + preheader.  -->
-          <!-- ============================================================= -->
-          <tr>
-            <td class="px-mobile" style="padding: 36px 40px 8px 40px;">
-              <p style="margin:0 0 6px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:12px; font-weight:700; color:#2B5CE6; letter-spacing: 0.6px; text-transform: uppercase;">Then &middot; The last step to notice</p>
+            <td class="px-mobile" style="padding: 28px 40px 8px 40px;">
+              <p style="margin:0 0 6px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:12px; font-weight:700; color:#2B5CE6; letter-spacing: 0.6px; text-transform: uppercase;">Also &middot; Less clutter</p>
               <h2 class="h2" style="margin:0; font-family: Georgia, 'Times New Roman', serif; font-size: 24px; line-height: 30px; font-weight: 700; color: #1F2A44; letter-spacing: -0.3px;">
-                Watch an item go from completed to paid
+                Past due date? It clears itself away
               </h2>
             </td>
           </tr>
 
-          <!-- VERIFY banner (internal note — remove before sending) -->
-          <tr>
-            <td class="px-mobile" style="padding: 8px 40px 4px 40px;">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#FFF7E6; border:1px dashed #E0A800; border-radius: 8px;">
-                <tr>
-                  <td style="padding: 12px 16px; font-family: 'Courier New', Courier, monospace; font-size:12px; line-height:18px; color:#7A5C00;">
-                    [VERIFY before sending] Does the Guru-facing dashboard surface <strong>payment status</strong> to Evaluators? If not, remove this whole section and the payment wording in the subject/preheader. (Delete this banner either way.)
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- Explicit moment 2 -->
+          <!-- Explicit moment 3 -->
           <tr>
             <td class="px-mobile" style="padding: 12px 40px 20px 40px;">
               <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#F0F4FF; border-radius: 10px;">
                 <tr>
                   <td style="padding: 18px 22px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; line-height:25px; color:#2A3F7A;">
-                    <strong style="color:#1F2A44;">Open it and you'll see</strong> a completed item move on to a <span style="color:#2D7A2D; font-weight:700;">Paid</span> status &mdash; the final stage in the pipeline, shown right on the item. <span style="font-family:'Courier New',Courier,monospace; font-size:13px; color:#B83B2F;">[VERIFY: dashboard surfaces payment status to Evaluators]</span><br/><br/>
-                    <strong style="color:#1F2A44;">Where before you had</strong> to cross-check a separate report to find out whether work you'd finished had actually been paid.
+                    <strong style="color:#1F2A44;">Open it and you'll see</strong> that any session past its due date moves into <span style="color:#2D7A2D; font-weight:700;">Completed</span> on its own &mdash; clearing it off the top, so what's left is just the work still <strong style="color:#1F2A44;">pending evaluation</strong>, highlighted for you.<br/><br/>
+                    <strong style="color:#1F2A44;">Where before you had</strong> done and outstanding items piled into one long list, and the reviews actually waiting on you were easy to lose in the clutter.
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
-
-          <!-- Screenshot 2 (placeholder: swap for the completed -> paid stage) -->
-          <tr>
-            <td class="px-mobile" style="padding: 0 40px 8px 40px;">
-              <p style="margin: 0 0 12px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; color: #98A2B3; text-align: center;">
-                The completed &rarr; paid stage <span style="font-family:'Courier New',Courier,monospace; font-size:11px; color:#B83B2F;">[VERIFY]</span>
-              </p>
-              <a href="[Dashboard Link]" style="text-decoration: none; display: block;">
-                <img src="https://guru-emails.vercel.app/assets/availability-summary.png?v=1778581083" alt="A completed evaluation showing a Paid status on the Guru Dashboard" width="520" style="display: block; width: 100%; max-width: 520px; height: auto; margin: 0 auto; border: 0; outline: none; text-decoration: none;">
-              </a>
-            </td>
-          </tr>
-
-          <!-- ===================== end VERIFY section ===================== -->
 
           <!-- Why it matters: tie to the task -->
           <tr>
@@ -287,7 +231,7 @@
                       Why it matters
                     </p>
                     <p style="margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:18px; line-height:28px; color:#FFFFFF; font-weight:600; letter-spacing:0.2px;">
-                      Your whole queue &mdash; what's left to review, what's done<span style="font-family:'Courier New',Courier,monospace; font-size:13px; color:#8FA3CE;"> [VERIFY: , and what's been paid]</span> &mdash; in one glance, instead of cross-checking across views to piece it together.
+                      Your whole queue &mdash; what's left to review, what's done, and what's cleared away &mdash; in one glance, instead of cross-checking across views to piece it together.
                     </p>
                   </td>
                 </tr>
